@@ -1,6 +1,8 @@
 import * as React from "react";
 
 import { ButtonSample } from "../buttons/ButtonSample";
+import { TableSelectionError } from "../ebeit/tableSelError/TableSelectionError";
+import { BasicGrid } from "../table/BasicGrid";
 import { ErrorPath } from "./ErrorPath";
 export interface MySampleProps {
     /**
@@ -47,33 +49,38 @@ export class MainMenu extends React.Component<MySampleProps, MainMenuState> {
 
         }
         const olCss: React.CSSProperties = {
-            listStyle:"disc inside"            
+            listStyle: "disc inside"
         }
         const ulCss: React.CSSProperties = {
-            listStyle:"square inside",
-            textIndent:"2em"
+            listStyle: "square inside",
+            textIndent: "2em"
         }
         return <div style={containerCss}>
             <ol style={olCss}>
                 <li>buttons
                     <ul style={ulCss}>
                         <li>
-                            <a style={itemCss} href={`/components/buttons__ButtonSample/`}>
+                            <a style={itemCss} href={this.createHref('buttons__ButtonSample')}>
                                 ButtonSample
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li>reactHook
+                <li>table
                     <ul style={ulCss}>
                         <li>
-                            <a style={itemCss} href={`/hooks/HooksExample1/`}>
-                                HooksExample1
+                            <a style={itemCss} href={this.createHref('table__BasicGrid')}>
+                                BasicGrid
                             </a>
                         </li>
+
+                    </ul>
+                </li>
+                <li>ebeit问题
+                    <ul style={ulCss}>
                         <li>
-                            <a style={itemCss} href={`/hooks/HookEffectDemo/`}>
-                                HookEffectDemo
+                            <a style={itemCss} href={this.createHref('ebeit__TableSelectionError')}>
+                                TableSelectionError
                             </a>
                         </li>
 
@@ -84,13 +91,25 @@ export class MainMenu extends React.Component<MySampleProps, MainMenuState> {
         </div>
     }
     private renderContent() {
-        if (this.props.sampleName === `menu`) {
-            return this.renderMenu();
-        } else if (this.props.sampleName === `buttons__ButtonSample`) {
-            return <ButtonSample></ButtonSample>
-        } else {
-            return <ErrorPath></ErrorPath>
+        switch (this.props.sampleName) {
+            case 'menu':
+                return this.renderMenu();
+            case 'buttons__ButtonSample':
+                return <ButtonSample></ButtonSample>
+            case 'table__BasicGrid':
+                return <BasicGrid></BasicGrid>
+            case 'ebeit__TableSelectionError':
+                return <TableSelectionError></TableSelectionError>
+            default:
+                return <ErrorPath></ErrorPath>
         }
-
+    }
+    /**
+     * 
+     * @param sampleName 前后没有/
+     * @returns 
+     */
+    private createHref(sampleName:string):string{
+        return `/components/${sampleName}/`;
     }
 }
